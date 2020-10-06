@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 import logging
 
+
 logging.basicConfig(filename='debug.log', level=logging.DEBUG, format=f'%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def main():
