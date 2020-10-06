@@ -33,14 +33,25 @@ def request_weather(location):
     # provide params to a variable; will need to look at query requirements for each new api
     query = {'q': {location}, 'units': 'imperial', 'appid': Key}
     URL = f'https://api.openweathermap.org/data/2.5/forecast'
-    data = requests.get(URL, params=query).json()
+
+    try:
+        logging.info(f'About to mke request to openweather {URL}')
+        data = requests.get(URL, params=query).json()
+        logging.info(f'response received from from API {data}')
+    except:
+        logging.exception(f'Error requesting URL {URL}')
+        return
+
     if data['cod'] == '404':
         print('City not found')
+        logging.info(f'Error returned validating response {data["cod"]}')
     else:
+        logging.info(f'Data valid {data["cod"]}')
         return data['list']
 
 
 def forecast_output(forecast_items):
+    logging.info(f'Data output sent to user {forecast_items}')
     for forecast in forecast_items:
         timestamp = forecast['dt']  # unix timestamp
         date = datetime.fromtimestamp(timestamp)
@@ -50,4 +61,5 @@ def forecast_output(forecast_items):
 
 
 if __name__ == '__main__':
+    logging.info('api_with_key launched')
     main()
